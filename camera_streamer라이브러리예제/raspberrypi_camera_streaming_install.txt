@@ -1,0 +1,25 @@
+sudo apt-get update
+sudo apt-get upgrade
+
+mkdir mjpg
+cd ./mjpg
+git clone https://github.com/jacksonliam/mjpg-streamer.git
+cd mjpg-streamer/
+cd mjpg-streamer-experimental/
+sudo apt-get install cmake
+sudo apt-get install python-imaging
+sudo apt-get install libjpeg-dev
+make CMAKE_BUILD_TYPE=Debug
+sudo make install
+cd ~
+
+sudo vi mjpg.sh
+----------mjpg.sh-----------------------------------------------------------------------------------
+export STREAMER_PATH=$HOME/mjpg/mjpg-streamer/mjpg-streamer-experimental
+export LD_LIBRARY_PATH=$STREAMER_PATH
+$STREAMER_PATH/mjpg_streamer -i "input_raspicam.so" -o "output_http.so -p 8091 -w $STREAMER_PATH/www"
+-----------------------------------------------------------------------------------------------------
+
+sh mjpg.sh(run)
+ctrl+z(stop)
+kill -9 [sh process number]
